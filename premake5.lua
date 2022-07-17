@@ -36,7 +36,7 @@ project "MySTL"
 	}
 
 	filter "system:windows"
-		cppdialect "C++14"
+		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "10.0.17763.0"
 		
