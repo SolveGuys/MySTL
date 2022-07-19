@@ -1,8 +1,10 @@
 #include "vector.h"
 #include "compressed_pair.h"
+#include "array.h"
 #include "test/testcode.h"
 #include <string>
 #include <vector>
+#include <array>
 
 
 
@@ -67,9 +69,50 @@ void my_vector_test()
 		std::cout << "push_back result - size: " << stl_vec.size() << " cap: " << stl_vec.capacity() << std::endl;;
 	}
 
-	// Å×½ºÆ® ÇÊ¿äÇÑ ±â´É
-	// »ç¿ëÀÚ »ı¼º ÇÒ´çÀÚ Å×½ºÆ®
-	// 1~4¹ø »ı¼ºÀÚ Å×½ºÆ®
+	// í…ŒìŠ¤íŠ¸ í•„ìš”í•œ ê¸°ëŠ¥
+	// ì‚¬ìš©ì ìƒì„± í• ë‹¹ì í…ŒìŠ¤íŠ¸
+	// 1~4ë²ˆ ìƒì„±ì í…ŒìŠ¤íŠ¸
+
+
+
+
+	std::cout << "my array================" << std::endl;
+	
+	my::array<int, 5> my_arr =  {1,2,3,4} ;
+
+	my_arr[2] = 4;
+	/*
+	for (my::array<int, 5>::iterator iter = my_arr.begin(); iter != my_arr.end(); ++iter) 
+	{
+		*iter = 0;
+	}
+	*/
+	for (int i = 0; i < 5; i++)
+	{
+		std::cout << my_arr[i] << ' ';
+	}std::cout << std::endl;
+	/*
+	for (auto it : my_arr)
+	{
+		std::cout << it << ' ';
+	}std::cout << std::endl;
+	*/
+	std::cout << "stl array===========" << std::endl;
+	std::array<int, 5> stl_arr = { {1,2,3,4} };
+
+	stl_arr[2] = 4;
+	for (std::array<int, 5>::iterator iter = stl_arr.begin(); iter != stl_arr.end(); ++iter)
+	{
+		*iter = 0;
+	}
+	for (auto it : stl_arr)
+	{
+		std::cout << it << ' ';
+	}std::cout << std::endl;
+
+
+
+
 }
 
 

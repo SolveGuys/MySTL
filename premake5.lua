@@ -26,6 +26,7 @@ project "MySTL"
 	includedirs
 	{
 		"%{prj.name}/src/container/vector",
+		"%{prj.name}/src/container/array",
 		"%{prj.name}/src/core",
 		"%{prj.name}/src/iterator"
 	}
