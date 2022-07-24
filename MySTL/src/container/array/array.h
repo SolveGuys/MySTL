@@ -29,10 +29,10 @@ namespace my
 		using const_reverse_iterator	= std::reverse_iterator<const_iterator>;//my::reverse_iterator<const_iterator>;
 
 		/*
-		template<class T, std::size_t _size>
-		struct array_iterator : public base_iterator<random_access_iterator_tag, T>
+		template<value_type, std::size_t _size>
+		struct array_iterator : public base_iterator<random_access_iterator_tag, value_type>
 		{
-			using super = base_iterator<random_access_iterator_tag, T>;
+			using super = base_iterator<random_access_iterator_tag, value_type>;
 
 		public:
 			explicit array_iterator(pointer inPtr, size_t offset = 0) : super(inPtr, offset) {}
@@ -47,6 +47,7 @@ namespace my
 			pointer operator->() const { return super::->; }
 		};
 		*/
+		
 	//Iterators
 	public:
 		iterator begin() 

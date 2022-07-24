@@ -6,16 +6,15 @@
 #include <vector>
 #include <array>
 
-
-
 void my_vector_test();
 void compressed_pair_test();
+void my_array_test();
 
 int main()
 {
 	my_vector_test();
 	compressed_pair_test();
-
+	my_array_test();
 	return 0;
 }
 
@@ -72,10 +71,10 @@ void my_vector_test()
 	// 테스트 필요한 기능
 	// 사용자 생성 할당자 테스트
 	// 1~4번 생성자 테스트
+}
 
-
-
-
+void my_array_test()
+{
 	std::cout << "my array================" << std::endl;
 	
 	my::array<int, 5> my_arr =  {1,2,3,4} ;
@@ -109,12 +108,7 @@ void my_vector_test()
 	{
 		std::cout << it << ' ';
 	}std::cout << std::endl;
-
-
-
-
 }
-
 
 void compressed_pair_test()
 {
@@ -125,5 +119,4 @@ void compressed_pair_test()
 
 	TEST_CODE(sizeof(cp1) == 8);
 	TEST_CODE(sizeof(cp2) == 4);
-
 }
