@@ -72,8 +72,8 @@ namespace my
 		pointer operator->() const { return super::->; }
 
 	private:
-		pointer _ptr;
-		size_t _idx;
+		pointer _ptr; // start position of array
+		size_t _idx; // offset into array
 	};
 	/*
 	*/
@@ -138,6 +138,19 @@ namespace my
 		// Constructor, Destructor
 		// my::array is an aggregate type, it dose NOT have a constructor/destructor.
 
+
+
+		const bool empty() noexcept
+		{
+			return _size == 0;
+		}
+
+		constexpr size_type size() const noexcept
+		{
+			return _size;
+		}
+
+
 		// at()
 		
 		reference at(size_type pos) 
@@ -167,6 +180,36 @@ namespace my
 		//const_reference at(size_type pos) const;
 		//constexpr const_reference at(size_type pos) const;
 		
+		reference front() noexcept 
+		{
+			return _elems[0];
+		}
+		
+		constexpr const_reference front() const noexcept
+		{
+			return _elems[0];
+		}
+
+		reference back() noexcept
+		{
+			return _elems[_size - 1];
+		}
+		
+		constexpr reference back() const noexcept
+		{
+			return _elems[_size - 1];
+		}
+
+		constexpr T* data() noexcept 
+		{
+			return _elems;
+		}
+
+		const T* data() noexcept 
+		{
+			return _elems;
+		}
+
 		T _elems[_size];
 	};
 
