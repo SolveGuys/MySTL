@@ -23,7 +23,7 @@ template<typename T1, typename T2> struct compressed_pair<T1, T2, false>
 
 	T1& get_first() noexcept { return first; }
 	T2& get_second() noexcept { return second; }
-	const T1& getFirst() const noexcept { return first; }
+	const T1& get_first() const noexcept { return first; }
 	const T2& get_second() const noexcept { return second; }
 };
 

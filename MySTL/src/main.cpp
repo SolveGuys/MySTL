@@ -12,6 +12,8 @@ void my_array_test();
 
 int main()
 {
+	//std::vector<int> vec1(5,3);
+
 	my_vector_test();
 	compressed_pair_test();
 	my_array_test();
@@ -33,7 +35,12 @@ void my_vector_test()
 		Data(const Data& other)
 		{
 			num = other.num;
-			std::cout << "Data(const Data& other)" << std::endl;
+			std::cout << "Data(const Data& other): copy" << std::endl;
+		}
+		Data(const Data&& other) noexcept
+		{
+			num = other.num;
+			std::cout << "Data(const Data&& other): move" << std::endl;
 		}
 		~Data()
 		{
@@ -42,31 +49,42 @@ void my_vector_test()
 		int num;
 	};
 
+	my::vector<Data> vec1;	// fine
+	vec1.emplace_back(1);
+	vec1.emplace_back(2);
+	vec1.emplace_back(3);
+	vec1.emplace_back(4);
+	vec1.emplace_back(5);
+	my::vector<Data> vec2(vec1);
+
+	my::vector<Data> vec3;
+	vec3 = vec1;
+
 	//my::vector<Data> vec1;	// fine
 	//my::vector<Data> vec2(5); // must error 2512
 
 	//my::vector<Data> vec2(1, 10);
 	//std::vector<Data> vec3(1, 11); //fine
 
-	std::cout << "my vector================" << std::endl;
-	my::vector<Data> my_vec(3);
+	//std::cout << "my vector================" << std::endl;
+	//my::vector<Data> my_vec(3);
 
-	Data data(3);
-	for (int i = 0; i < 10; ++i)
-	{
-		my_vec.push_back(data);
-		std::cout << "push_back result - size: " << my_vec.size() << " cap: " << my_vec.capacity() << std::endl;;
-	}
+	//Data data(3);
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	my_vec.push_back(data);
+	//	std::cout << "push_back result - size: " << my_vec.size() << " cap: " << my_vec.capacity() << std::endl;;
+	//}
 
-	std::cout << std::endl;
+	//std::cout << std::endl;
 
-	std::cout << "stl vector===========" << std::endl;
-	std::vector<Data> stl_vec(3);
-	for (int i = 0; i < 10; ++i)
-	{
-		stl_vec.push_back(data);
-		std::cout << "push_back result - size: " << stl_vec.size() << " cap: " << stl_vec.capacity() << std::endl;;
-	}
+	//std::cout << "stl vector===========" << std::endl;
+	//std::vector<Data> stl_vec(3);
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	stl_vec.push_back(data);
+	//	std::cout << "push_back result - size: " << stl_vec.size() << " cap: " << stl_vec.capacity() << std::endl;;
+	//}
 
 	// 테스트 필요한 기능
 	// 사용자 생성 할당자 테스트
