@@ -61,11 +61,19 @@ namespace my
 
 	public:
 		explicit array_iterator(pointer inPtr, size_t offset = 0) : super(inPtr), _idx(offset) {}
+		
 		array_iterator() : super(nullptr) {}
 		array_iterator& operator++() { super::ptr++; return *this; }
 		array_iterator operator++(int amount) { super::ptr += amount; return *super::ptr; }
 		array_iterator& operator--() { super::ptr--; return *this; }
 		array_iterator operator--(int amount) { super::ptr -= amount; return *super::ptr; }
+		
+		array_iterator& operator+=(int amount) { super::ptr += amount; return *this; }
+		array_iterator operator+=(int amount) const { super::ptr += amount; return *super::ptr; }
+
+		array_iterator& operator-=(int amount) { super::ptr -= amount; return *this; }
+		array_iterator operator-=(int amount) const { super::ptr -= amount; return *super::ptr; }
+
 		bool operator==(array_iterator other) const { return super::ptr == other.super::ptr; }
 		bool operator!=(array_iterator other) const { return !(this->operator==(other)); }
 		reference operator*() const { return *super::ptr; };
@@ -75,9 +83,7 @@ namespace my
 		pointer _ptr; // start position of array
 		size_t _idx; // offset into array
 	};
-	/*
-	*/
-
+	
 	template<class T, std::size_t _size>
 	class array
 	{
@@ -103,15 +109,51 @@ namespace my
 		
 	//Iterators
 	public:
-		iterator begin() 
+		iterator begin() noexcept
 		{
-			return iterator(_elems, 0);
+			iterator begin = iterator(_elems, 0);
+			return begin;
 		}
 
-		iterator end() 
+		const_iterator begin() const noexcept
 		{
-			return iterator(_elems, _size);
+			const_iterator begin = const_iterator(_elems, 0);
+			return begin;
 		}
+
+		iterator end() noexcept
+		{
+			iterator end = iterator(_elems, _size);
+			return end;
+		}
+		
+		const_iterator end() const noexcept 
+		{
+			return const_iterator(_elems, _size);
+		}
+		
+
+		reverse_iterator rbegin() noexcept
+		{
+			return reverse_iterator(begin());
+		}
+				
+		const_reverse_iterator rbegin() const noexcept
+		{
+			return const_reverse_iterator(begin());
+		}
+
+		reverse_iterator rend() noexcept
+		{
+			return reverse_iterator(end());
+		}
+
+		const_reverse_iterator rend() const noexcept
+		{
+			return const_reverse_iterator(end());
+		}
+		
+
 	//Operations
 	public:
 		void fill(const T& value) 
@@ -119,9 +161,9 @@ namespace my
 			std::fill_n(_elems, size, value);
 		}
 
-		void swap(array& other) noexcept(std::is_nothrow_swappable_v<T>::value) 
+		void swap(array& other) noexcept(std::is_nothrow_swappable<T>::value) 
 		{
-			std::_Swap_ranges_unchecked(_elems, _elems+size, other._elems);
+			std::_Swap_ranges_unchecked(_elems, _elems + _size, other._elems);
 		}
 	//Operators
 	public:
@@ -205,12 +247,43 @@ namespace my
 			return _elems;
 		}
 
-		const T* data() noexcept 
+		const T* data() const noexcept 
 		{
 			return _elems;
 		}
 
 		T _elems[_size];
 	};
+
+	template<class T, std::size_t _size>
+	bool operator==(const my::array<T, _size>& left, const my::array<T, _size>& right)
+	{
+		return std::equal(left.begin(), left.end(), right.begin());
+	}
+	template<class T, std::size_t _size>
+	bool operator!=(const my::array<T, _size>& left, const my::array<T, _size>& right)
+	{
+		return !(left == right);
+	}
+	template<class T, std::size_t _size>
+	bool operator<(const my::array<T, _size>& left, const my::array<T, _size>& right)
+	{
+		return std::lexicographical_compare(left.begin(), left.end(), right.begin(), right.end());
+	}
+	template<class T, std::size_t _size>
+	bool operator>(const my::array<T, _size>& left, const my::array<T, _size>& right)
+	{
+		return right < left;
+	}
+	template<class T, std::size_t _size>
+	bool operator<=(const my::array<T, _size>& left, const my::array<T, _size>& right)
+	{
+		return !(right < left);
+	}
+	template<class T, std::size_t _size>
+	bool operator>=(const my::array<T, _size>& left, const my::array<T, _size>& right)
+	{
+		return !(left < right);
+	}
 
 }

@@ -16,7 +16,7 @@ int main()
 
 	my_vector_test();
 	compressed_pair_test();
-	//my_array_test();
+	my_array_test();
 	return 0;
 }
 
@@ -89,6 +89,12 @@ void my_vector_test()
 	// 테스트 필요한 기능
 	// 사용자 생성 할당자 테스트
 	// 1~4번 생성자 테스트
+	std::cout << "aaaa\n";
+	my::array<int, 5> a{ 1,2,3,4,5 };
+	//
+	for (auto it = a.rbegin(); it != a.rend(); it++)
+		std::cout << *it << ' ';
+	std::cout << "aaaa\n";
 }
 
 int my_array_test()
@@ -187,14 +193,17 @@ int my_array_test()
 
 		// deduction guides
 #ifdef __cpp_deduction_guides
+		//C++20 내용이므로 구현하지 않음
+		/*
 		my::array deduced{ 1,2,3,4,5 };
 
 		//static_assert(my::is_same_v<decltype(deduced)::value_type, int>, "deduced array value_type mismatch");
 		assert(deduced.size() == 5);
+		*/
 #endif
-
+		// TODO : structured binding
 		// structured binding
-
+		
 		{
 			my::array<int, 5> aCopy = a;
 			auto&& [a0, a1, a2, a3, a4] = aCopy;
@@ -224,6 +233,7 @@ int my_array_test()
 
 			///static_assert(my::is_same_v<my::remove_reference_t<decltype(aConst0)>, const int>);
 		}
+		
 	}
 
 	// constexpr tests
