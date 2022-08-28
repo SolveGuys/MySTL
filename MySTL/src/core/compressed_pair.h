@@ -7,7 +7,7 @@ template<typename T1, typename T2, bool = std::is_empty_v<T1> && !std::is_final_
 struct one_and_variadic_arg_t { explicit one_and_variadic_arg_t() = default; };
 struct zero_and_variadic_arg_t { explicit zero_and_variadic_arg_t() = default; };
 
-// T1 is empty class
+// T1 isn't empty class
 template<typename T1, typename T2> struct compressed_pair<T1, T2, false>
 {
 	T1 first;
@@ -27,7 +27,7 @@ template<typename T1, typename T2> struct compressed_pair<T1, T2, false>
 	const T2& get_second() const noexcept { return second; }
 };
 
-// T1 isn't empty class
+// T1 is empty class
 template<typename T1, typename T2>
 struct compressed_pair <T1, T2, true> : public T1
 {
