@@ -197,7 +197,7 @@ namespace my
 		
 		reference at(size_type pos) 
 		{
-			assert(_size > pos, "invalid my::array<T, N> subscript");
+			assert(((void) "invalid my::array<T, N> subscript", _size > pos));
 
 			if (_size <= pos) 
 			{
@@ -209,7 +209,7 @@ namespace my
 
 		constexpr reference at(size_type pos) const
 		{
-			assert(_size > pos, "invalid my::array<T, N> subscript");
+			assert(((void) "invalid my::array<T, N> subscript", _size > pos));
 
 			if (_size <= pos)
 			{

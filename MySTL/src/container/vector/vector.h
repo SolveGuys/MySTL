@@ -11,7 +11,7 @@
 #include "compressed_pair.h"
 #include "test/testcode.h"
 
- 
+
 //std::vector<int> a;
 namespace my {
 
@@ -21,7 +21,7 @@ namespace my {
 		static constexpr std::size_t INIT_CAP = 4;
 		static constexpr float RESIZE_FACTOR = 1.5;
 
-		 
+
 		struct vector_iterator;
 
 		using value_type = T;
@@ -139,7 +139,7 @@ namespace my {
 				std::allocator_traits<allocator_type>::destroy(get_allocator(), data() + _size - 1);
 			}
 
-			if (std::allocator_traits<allocator_type>::propagate_on_container_copy_assignment::value 
+			if (std::allocator_traits<allocator_type>::propagate_on_container_copy_assignment::value
 				&& get_allocator() != other.get_allocator())
 			{
 				// 기존 allocator로 할당받은 메모리 반납
@@ -147,7 +147,7 @@ namespace my {
 				get_allocator() = other.get_allocator();
 			}
 
-			assertm(_size == 0, "size must be 0 before reallocation. ");
+			assert(((void)"size must be 0 before reallocation. ", _size == 0));
 
 			_realloacate(other._capacity);
 			_copy_data_in_unused_space(other);
@@ -285,7 +285,7 @@ namespace my {
 		iterator insert(const_iterator pos, T&& value);							// 2
 		iterator insert(const_iterator pos, size_type count, const T& value);	// 3
 		template< class InputIt >
-		iterator insert(const_iterator pos,	InputIt first, InputIt last);		// 4
+		iterator insert(const_iterator pos, InputIt first, InputIt last);		// 4
 		iterator insert(const_iterator pos, std::initializer_list<T> ilist);	// 5
 
 		template< class... Args >
@@ -352,18 +352,18 @@ namespace my {
 
 		void _init_allocate(size_type capacity = INIT_CAP)
 		{
-			assertm(_capacity == 0, "_init_allocate can only be called when capacity is 0.");
-			 
+			assert(((void) "_init_allocate can only be called when capacity is 0.", _capacity == 0));
+
 			_capacity = capacity;
 			_alloc_data_pair.get_data() = std::allocator_traits<allocator_type>::allocate(get_allocator(), _capacity);
 			//std::cout << _msize(_alloc_data_pair.get_data()) / sizeof(value_type) << std::endl;
 		}
-		
+
 		void _realloacate(size_type new_capacity)
 		{
 			//std::cout << "_realloacate() -  old datd():" << data() << std::endl;
 
-			assertm(new_capacity >= _size, "invalid capacity.");
+			assert(((void) "invalid capacity.", new_capacity >= _size));
 			if (new_capacity == _capacity) return;
 
 			if (_capacity == 0)
@@ -446,7 +446,7 @@ namespace my {
 		}
 		void _create_with_copy_constructor(size_type count, const value_type& other)
 		{
-			assertm(_size < _capacity, "capacity must be greater than size.");
+			assert(((void)"capacity must be greater than size.", _size < _capacity));
 
 			size_type idx = _size;
 			try
@@ -472,7 +472,7 @@ namespace my {
 				throw;
 			}
 		}
-		
+
 		void _destroy_elements_from_back(size_type count)
 		{
 			for (size_type i = count; i > 0; --i)
@@ -491,7 +491,7 @@ namespace my {
 			catch (...)
 			{
 				_relase_all()
-				throw;
+					throw;
 			}
 		}
 
@@ -514,7 +514,7 @@ namespace my {
 			std::allocator_traits<allocator_type>::deallocate(get_allocator(), data(), _capacity);
 			_capacity = 0;
 		}
-		
+
 		size_type _cal_new_capacity(size_type count)
 		{
 			size_type new_capacity = INIT_CAP;
@@ -539,11 +539,11 @@ namespace my {
 			_size++;
 		}
 
-		T* _end_pos() noexcept				
+		T* _end_pos() noexcept
 		{
 			return (_alloc_data_pair.get_data() + _size);
 		}
-		const T* _end_pos() const noexcept 
+		const T* _end_pos() const noexcept
 		{
 			return (_alloc_data_pair.get_data() + _size);
 		}

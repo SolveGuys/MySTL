@@ -11,11 +11,3 @@
 							std::cout << TEST_LOG_FOMAT(pred) << std::string("succeeded") << std::endl; \
 
 
-
-// exp이 false일 경우 런타임 에러를 발생시켜준다. (Debug 모드일 때만 동작)
-// 사용법: assertm([평가할 구문], "에러메세지")
-#ifdef DEBUG 
-	#define assertm(exp, msg) assert(((void)msg, exp))
-#else
-	#define assertm(exp, msg) 
-#endif
