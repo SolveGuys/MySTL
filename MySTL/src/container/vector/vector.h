@@ -323,16 +323,26 @@ namespace my {
 
 		void resize(size_type count)
 		{
-			auto create_func = [count] {
-				_create_with_default_constructor(count);
+			if (count <= size())
+			{
+				return;
+			}
+
+			auto create_func = [this, count] {
+				_create_with_default_constructor(count - size());
 			};
 			_resize_elements(count, create_func);
 		}
 
 		void resize(size_type count, const value_type& value)
 		{
-			auto create_func = [&value, count] {
-				_create_with_copy_constructor(count, value);
+			if (count <= size())
+			{
+				return;
+			}
+
+			auto create_func = [this, &value, count] {
+				_create_with_copy_constructor(count - size(), value);
 			};
 			_resize_elements(count, create_func);
 		}
@@ -361,7 +371,7 @@ namespace my {
 
 		void _realloacate(size_type new_capacity)
 		{
-			//std::cout << "_realloacate() -  old datd():" << data() << std::endl;
+			std::cout << "_realloacate() -  old datd():" << data() << " old capacity: " << capacity() << " new capacity: " << new_capacity << std::endl;
 
 			assert(((void) "invalid capacity.", new_capacity >= _size));
 			if (new_capacity == _capacity) return;
@@ -427,7 +437,7 @@ namespace my {
 				for (; idx < _size; ++idx)
 				{
 					// call default constructor
-					std::allocator_traits< allocator_type>::construct(_allocator(), data() + idx);
+					std::allocator_traits< allocator_type>::construct(get_allocator(), data() + idx);
 				}
 			}
 			// TODO: 생성 예외 발생시 정책은?
@@ -439,7 +449,7 @@ namespace my {
 				_size -= count;
 				for (; idx >= _size; --idx)
 				{
-					std::allocator_traits<allocator_type>::destroy(_allocator(), data() + idx);
+					std::allocator_traits<allocator_type>::destroy(get_allocator(), data() + idx);
 				}
 				throw;
 			}
@@ -455,7 +465,7 @@ namespace my {
 				for (; idx < _size; ++idx)
 				{
 					// call copy constructor
-					std::allocator_traits<allocator_type>::construct(_allocator(), (data() + idx), other);
+					std::allocator_traits<allocator_type>::construct(get_allocator(), (data() + idx), other);
 				}
 			}
 			// TODO: 생성 예외 발생시 정책은?
@@ -467,7 +477,7 @@ namespace my {
 				_size -= count;
 				for (; idx >= _size; --idx)
 				{
-					std::allocator_traits<allocator_type>::destroy(_allocator(), data() + idx);
+					std::allocator_traits<allocator_type>::destroy(get_allocator(), data() + idx);
 				}
 				throw;
 			}
@@ -477,7 +487,7 @@ namespace my {
 		{
 			for (size_type i = count; i > 0; --i)
 			{
-				std::allocator_traits<allocator_type>::destroy(_allocator(), data() - i);
+				std::allocator_traits<allocator_type>::destroy(get_allocator(), data() - i);
 			}
 			_size -= count;
 		}
@@ -555,7 +565,7 @@ namespace my {
 			{
 				if (count > _capacity)
 				{
-					_realloacate(count * RESIZE_FACTOR);
+					_realloacate(static_cast<size_type>(count * RESIZE_FACTOR));
 				}
 				// todo: create_func 에서 예외 발생할경우 어떻게 할지.
 				create_func();

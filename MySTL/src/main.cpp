@@ -55,10 +55,12 @@ void my_vector_test()
 	vec1.emplace_back(3);
 	vec1.emplace_back(4);
 	vec1.emplace_back(5);
-	my::vector<Data> vec2(vec1);
+	std::cout << "vec1.resize(20)" << std::endl;
+	vec1.resize(20); 
+	//my::vector<Data> vec2(vec1);
 
-	my::vector<Data> vec3;
-	vec3 = vec1;
+	//my::vector<Data> vec3;
+	//vec3 = vec1;
 
 	//my::vector<Data> vec1;	// fine
 	//my::vector<Data> vec2(5); // must error 2512
